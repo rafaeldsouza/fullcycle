@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Cycle Rocks!</title>
+</head>
+<body>
+    <h1>Full Cycle Rocks!</h1>
+    <form id="form">
+        <label for="nome">Name:</label>
+        <input type="text" id="name" name="name">
+        <button type="submit">Submit</button>
+    </form>
+    <h2>List of Pople</h2>
+    <ul id="list-names">
+        <% names.forEach(name => { %>
+            <li><%= name %></li>
+        <% }); %>
+    </ul>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var name = document.getElementById('name').value;
+            fetch('/insert-name', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var listNames = document.getElementById('list-names');
+                    var newName = document.createElement('li');
+                    newName.textContent = name;
+                    listNames.appendChild(newName);
+                    document.getElementById('name').value = ''; 
+                } else {
+                    alert('Erro to save name.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Exception: Erro to save name.');
+            });
+        });
+    </script>
+</body>
+</html>
