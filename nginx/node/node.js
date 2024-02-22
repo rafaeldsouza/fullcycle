@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true })); // Middleware para analisar dad
 app.use(express.json()); 
 
 const connection = mysql.createConnection(config)
-//create table people(id int not null auto_increment, name varchar(255), primary key (id))
 
 
 
